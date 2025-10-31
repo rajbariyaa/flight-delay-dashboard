@@ -1,0 +1,32 @@
+[
+  {
+    "iata": "BWI",
+    "name": "Baltimore/Washington Intl",
+    "lat": 39.1754,
+    "lon": -76.6684
+  },
+  {
+    "iata": "ATL",
+    "name": "Hartsfield\u2013Jackson Atlanta Intl",
+    "lat": 33.6407,
+    "lon": -84.4277
+  },
+  {
+    "iata": "JFK",
+    "name": "John F. Kennedy Intl",
+    "lat": 40.6413,
+    "lon": -73.7781
+  },
+  {
+    "iata": "ORD",
+    "name": "Chicago O'Hare Intl",
+    "lat": 41.9742,
+    "lon": -87.9073
+  },
+  {
+    "iata": "LAX",
+    "name": "Los Angeles Intl",
+    "lat": 33.9416,
+    "lon": -118.4085
+  }
+]
