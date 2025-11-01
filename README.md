@@ -65,6 +65,64 @@ Hybrid fallback (optional)
 - To enable real server-side AI: set `GEMINI_API_KEY` in `.env.local`
 - The UI automatically chooses: on-device (preferred) → server → demo stub
 
+Submission checklist (hackathon)
+- Uses Built‑in AI APIs on the client (Prompt API)
+- Public GitHub repo with open-source license (MIT/Apache-2.0 recommended)
+- README updated with setup instructions and feature overview (this file)
+- Deployed demo link (Vercel recommended)
+- Short demo video (< 3 minutes) showing on-device advisory and translations
+- Show fallback working when on-device AI is unavailable
+- Optional feedback form submission
+
 Security & Privacy
 - AI runs locally with Chrome Built‑in AI; network calls for weather use Open‑Meteo (no API key).
 - No sensitive user data is sent to third-party AI services by default.
+
+### Enable Gemini API (server fallback)
+
+If your browser doesn’t support on‑device AI (Prompt API) or you want cloud‑generated advisories, enable the Gemini Developer API fallback used by `/api/ai-advice`.
+
+1) Get an API key
+  - Visit: https://aistudio.google.com/app/apikey
+  - Create a new API key (free tier available; usage may be rate‑limited)
+
+2) Add it to your environment
+  - Create/Edit `.env.local` in the project root:
+
+    ```bash
+    # .env.local
+    GEMINI_API_KEY=your-key-here
+    # Optional: choose a specific model (update the API route to read it)
+    # GEMINI_MODEL=gemini-1.5-flash
+    ```
+
+  - Important: Don’t commit `.env.local`. It’s already ignored by `.gitignore`.
+
+3) Restart the dev server
+  - Next.js loads env vars at boot. Stop `npm run dev` and start it again.
+
+4) Verify the endpoint (optional)
+  - You can POST to `/api/ai-advice` to confirm it’s working:
+
+    ```bash
+    curl -s -X POST http://localhost:3000/api/ai-advice \
+     -H 'Content-Type: application/json' \
+     -d '{
+      "mode": "advice",
+      "language": "en",
+      "context": { "flight": { "origin": "LAX", "destination": "JFK" } }
+     }'
+    ```
+
+  - Success returns JSON with `text` and a provider like `gemini:v1beta:gemini-2.5-pro-preview-03-25`.
+  - If the key is missing/invalid or the endpoint is unavailable, the API returns a safe demo stub with `provider: "stub"`.
+
+5) How the app decides which AI to use
+  - Client first tries on‑device Prompt API (`window.ai`).
+  - If unavailable, it calls the server route `/api/ai-advice`.
+  - If the server route can’t reach Gemini, it returns a deterministic demo advisory so the UI keeps working.
+
+Notes
+- Default model: the server route currently tries `gemini-2.5-pro-preview-03-25` (API version `v1beta`).
+- To switch models, set `GEMINI_MODEL` in `.env.local` and update `pages/api/ai-advice.js` to read it.
+- For production, avoid logging secrets. Remove any debug statements that print parts of the API key in `pages/api/ai-advice.js`.
