@@ -65,15 +65,6 @@ Hybrid fallback (optional)
 - To enable real server-side AI: set `GEMINI_API_KEY` in `.env.local`
 - The UI automatically chooses: on-device (preferred) → server → demo stub
 
-Submission checklist (hackathon)
-- Uses Built‑in AI APIs on the client (Prompt API)
-- Public GitHub repo with open-source license (MIT/Apache-2.0 recommended)
-- README updated with setup instructions and feature overview (this file)
-- Deployed demo link (Vercel recommended)
-- Short demo video (< 3 minutes) showing on-device advisory and translations
-- Show fallback working when on-device AI is unavailable
-- Optional feedback form submission
-
 Security & Privacy
 - AI runs locally with Chrome Built‑in AI; network calls for weather use Open‑Meteo (no API key).
 - No sensitive user data is sent to third-party AI services by default.
